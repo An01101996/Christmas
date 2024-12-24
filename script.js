@@ -4,7 +4,19 @@ const videoPlayer = document.getElementById("videoPlayer");
 const backgroundAudio = document.getElementById("backgroundAudio");
 const messageBox = document.getElementById("messageBox");
 
-// Đảm bảo nhạc nền chỉ phát khi người dùng nhấn vào hộp quà
+// Kiểm tra xem trình duyệt có cho phép phát nhạc tự động không
+document.addEventListener("DOMContentLoaded", () => {
+    backgroundAudio.play()
+        .then(() => {
+            console.log("Nhạc tự động phát thành công.");
+        })
+        .catch((error) => {
+            console.log("Trình duyệt chặn tự động phát nhạc. Nhạc sẽ phát khi nhấn vào hộp quà.");
+            backgroundAudio.pause(); // Dừng nhạc nếu không tự động phát được
+        });
+});
+
+// Phát nhạc khi nhấn vào hộp quà nếu nhạc không tự động phát
 giftBox.addEventListener("click", () => {
     // Phát nhạc
     backgroundAudio.play().catch((error) => {
@@ -16,9 +28,4 @@ giftBox.addEventListener("click", () => {
     giftBox.style.display = "none"; // Ẩn hộp quà
     document.querySelector(".click-to-open").style.display = "none"; // Ẩn chữ "Nhấp Để Mở"
     messageBox.style.display = "none"; // Ẩn dòng chữ chúc mừng
-});
-
-// Đảm bảo nhạc không phát tự động khi tải trang
-document.addEventListener("DOMContentLoaded", () => {
-    backgroundAudio.pause(); // Dừng nhạc khi tải trang
 });
